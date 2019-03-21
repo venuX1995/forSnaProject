@@ -12,6 +12,7 @@ import numpy as np
 import csv
 import community
 import pandas as pd
+from pandas import Series,DataFrame
 import tools
 import community_evolution
 
@@ -50,15 +51,24 @@ def graphCentrality(G):
     print("Betweenness Centrality" + str(nx.betweenness_centrality(G)))
     print("Eigenvector Centrality" + str(nx.eigenvector_centrality(G)))
 
-p = '/users/xuan/desktop/SNA/data/'
-f_in = open(p+'edges.csv', 'r')
-G = nx.Graph()
-csv_reader = csv.reader(f_in,dialect='excel')
-for line in csv_reader:
-    G.add_edge(line[0],line[1])
-f_in.close()
-leadershipDF = community_evolution.getLeadershipOftime(G)
-print(community_evolution.getIndexInCommunity(50195,25,leadershipDF))
+def generate(f,start,end):   #根据给定的边文件筛选在时间窗[start，end）间的边，生成特定时间窗口内的静态图
+    f_in = open(f, 'r')
+    csv_reader = csv.reader(f_in, dialect='excel')
+    G = nx.Graph()
+    print('G初始化')
+    for line in csv_reader:
+        tmpStamp = int(line[2])
+        pplInTeam = int(line[3])
+        if(tmpStamp>=start and tmpStamp<end and pplInTeam<=50):
+            print('时间戳为：',line[2],' 所在比赛的每组人数限制为：',line[3])
+            G.add_edge(line[0],line[1])
+            print('添加边：', line[0],'-',line[1])
+    f_in.close()
+    return G
+
+
+#leadershipDF = community_evolution.getLeadershipOftime(G)
+#print(community_evolution.getIndexInCommunity(50195,25,leadershipDF))
 
 #drawing
 #dendrogram = community.best_partition(G)
