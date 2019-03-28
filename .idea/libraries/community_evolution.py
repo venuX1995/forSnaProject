@@ -44,14 +44,16 @@ def getLeadershipOftime(G):
             leadership = round(degree/(cfc+degreeOfNeigh),3)
             print('社区',com,'中节点',node,'的度为：',degree,' ','它的邻居节点总度数为',degreeOfNeigh,'的领导力为：',leadership)
             leadershipOfT = leadershipOfT.append((DataFrame({'node':[node],'community':[com],'leadership_in_community':[leadership]})))
-    leadershipOfT.set_index(['node'],inplace=True)
+    #leadershipOfT.set_index(['node'],inplace=True)
     return leadershipOfT
 
 def getIndexInCommunity(node,com,df):
+    df.set_index(['node'], inplace=True)
     comInfo = DataFrame(df[df['community']==com])
     print(comInfo)
     print(comInfo['leadership_in_community'].rank(ascending=False))
     rank = comInfo['leadership_in_community'].rank(ascending=False)[node]
+    print("节点",node,"的排序为",rank)
     index = round(rank/comInfo.shape[0])
     return index
 
