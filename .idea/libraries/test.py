@@ -1,19 +1,13 @@
-import sys
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @File  : test.py
+# @Author: xuan
+# @Date  : 2019-03-22
+# @Desc  : for test
 import pandas as pd
-from pandas import Series,DataFrame
-import networkx as nx
+from pandas import DataFrame,Series
+import numpy as np
 
-
-p = '/users/xuan/desktop/SNA/data/志愿者人脸相关数据/人脸/'
-f = p+'picture_people_match1.csv'
-export = p+'afterClean.csv'
-def cleanInvalidData(f,export):
-    f_in = open(f,'r')
-    f_out = open(export,'w',newline='')
-    csv_reader = csv.reader(f_in,dialect='excel')
-    csv_writer = csv.writer(f_out,dialect='excel')
-    for line in csv_reader:
-        if line['team_limit'] != 1:
-            csv_writer.writerow(line)
-    f_in.close()
-    f_out.close()
+dict1 = {'c11':{'c21':52,'c22':31,'c23':11},'c12':{'c21':13,'c22':15,'c23':19}}
+dict1['c11']['c24'] = 27
+print(dict1)

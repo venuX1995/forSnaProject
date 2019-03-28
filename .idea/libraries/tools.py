@@ -48,7 +48,4 @@ def dict2csv(dict,file):
     for key in dict:
         com = com.append(DataFrame({'Node':key,'Community':dict[key]},index=[0]))
     com.to_csv(file)
-print(timeTrans(1552533694,"%Y-%m-%d %H:%M:%S"))
-print(timeTrans(1552572090,"%Y-%m-%d %H:%M:%S"))
-print(timeTrans(1552576162,"%Y-%m-%d %H:%M:%S"))
-print(timeTrans(1551505121,"%Y-%m-%d %H:%M:%S"))
+print(sys.argv[0])

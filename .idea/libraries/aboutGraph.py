@@ -55,14 +55,14 @@ def generate(f,start,end):   #根据给定的边文件筛选在时间窗[start�
     f_in = open(f, 'r')
     csv_reader = csv.reader(f_in, dialect='excel')
     G = nx.Graph()
-    print('G初始化')
+    #print('G初始化')
     for line in csv_reader:
         tmpStamp = int(line[2])
         pplInTeam = int(line[3])
         if(tmpStamp>=start and tmpStamp<end and pplInTeam<=50):
-            print('时间戳为：',line[2],' 所在比赛的每组人数限制为：',line[3])
+            #print('时间戳为：',line[2],' 所在比赛的每组人数限制为：',line[3])
             G.add_edge(line[0],line[1])
-            print('添加边：', line[0],'-',line[1])
+            #print('添加边：', line[0],'-',line[1])
     f_in.close()
     return G
 

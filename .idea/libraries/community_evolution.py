@@ -42,13 +42,15 @@ def getLeadershipOftime(G):
             else:
                 cfc = 2*edgeOfNeigh/(degree*(degree-1))
             leadership = round(degree/(cfc+degreeOfNeigh),3)
-            print('社区',com,'中节点',node,'的度为：',degree,' ','它的邻居节点总度数为',degreeOfNeigh,'它的领导力为：',leadership)
+            print('社区',com,'中节点',node,'的度为：',degree,' ','它的邻居节点总度数为',degreeOfNeigh,'的领导力为：',leadership)
             leadershipOfT = leadershipOfT.append((DataFrame({'node':[node],'community':[com],'leadership_in_community':[leadership]})))
     leadershipOfT.set_index(['node'],inplace=True)
     return leadershipOfT
 
 def getIndexInCommunity(node,com,df):
     comInfo = DataFrame(df[df['community']==com])
+    print(comInfo)
+    print(comInfo['leadership_in_community'].rank(ascending=False))
     rank = comInfo['leadership_in_community'].rank(ascending=False)[node]
     index = round(rank/comInfo.shape[0])
     return index
@@ -61,8 +63,11 @@ def getDegreeInCommunity(node,G,comList):
 
 
 
-def computeStability(dic1,dic2):    #计算两个社区的稳定性
-    matrixOfStability = DataFrame({'community_of_T1':[],'community_of_T2':[],'stability':[]})
+def computeStability(G1,G2,count):    #计算两个社区的稳定性  结果输出由两个社区确定的稳定性字典
+    dic1 = transformDict(community.best_partition(G1))
+    dic2 = transformDict(community.best_partition(G2))
+    #stability = DataFrame({'community_of_T1':[],'community_of_T2':[],'stability':[]})
+    stabilityDict = {}
     for c1 in dic1:
         for c2 in dic2:
             a_list = dic1[c1]
@@ -70,12 +75,19 @@ def computeStability(dic1,dic2):    #计算两个社区的稳定性
             intersectionList = list((set(a_list).union(set(b_list))) ^ (set(a_list) ^ set(b_list)))
             sameNodeCount = len(intersectionList)
             sta = max(sameNodeCount / len(a_list), sameNodeCount / len(b_list))
-            matrixOfStability.append(DataFrame({'c1':c1,'c2':c2,'sta':sta}),ignore_index=True)
-    return matrixOfStability
+            key1 = 'c'+str(count-1)+str(c1)
+            key2 = 'c'+str(count)+str(c2)
+            if key1 not in stabilityDict.keys():
+                stabilityDict[key1] = {key2:sta} #存为嵌套字典，第一个键为t中的社区编号，第二层键为t+1中的社区编号，sta为两个社区之间的稳定性，count暂定，用来标记第几张图
+            else:
+                stabilityDict[key1][key2] = sta
+            #stability.append(DataFrame({'c1':c1,'c2':c2,'sta':sta}),ignore_index=True)
+    return stabilityDict
 
 
-def computeDifference(G1,G2):    #计算模块差异度
-    diff = DataFrame ({'community_of_T1':[],'community_of_T2':[],'difference':[]})
+def computeDifference(G1,G2,count):    #计算模块差异度
+    #diff = DataFrame ({'community_of_T1':[],'community_of_T2':[],'difference':[]})
+    diffDict = {}
     leadershipOfG1 = getLeadershipOftime(G1)
     leadershipOfG2 = getLeadershipOftime(G2)
     dic1 = transformDict(community.best_partition(G1))
@@ -87,13 +99,21 @@ def computeDifference(G1,G2):    #计算模块差异度
             intersectionList = list((set(a_list).union(set(b_list))) ^ (set(a_list) ^ set(b_list)))
             difference = 0
             for Node in intersectionList:
+                print("当前比较对象为： ","图1中的社区",c1,"和图2中的社区",c2,"中节点",Node)
                 index1 = getIndexInCommunity(Node,c1,leadershipOfG1);     #节点在c1中的影响力排名
                 index2 = getIndexInCommunity(Node,c2,leadershipOfG2);     #节点在c2中的影响力排名
-                leadership = (leadershipOfG1.get_value(Node,leadership_in_community)+leadershipOfG2.get_value(Node,leadership_in_community))/2    #需要重写
+                #leadership = (leadershipOfG1.get_value(Node,leadership_in_community)+leadershipOfG2.get_value(Node,leadership_in_community))/2    #需要重写
+                leadership = ((leadershipOfG1['leadership_in_community'][leadershipOfG1['node']==Node].values[0])+(leadershipOfG2['leadership_in_community'][leadershipOfG2['node']==Node].values[0]))/2
                 difference = difference + abs(index1-index2)*leadership
-            difference = difference/len(intersectionList)
-            diff.append(DataFrame({'c1': c1, 'c2': c2, 'difference': round(difference,3)}), ignore_index=True)
-    return diff
+            difference = difference/(len(intersectionList)+0.001)
+            key1 = 'c' + str(count - 1) + str(c1)
+            key2 = 'c' + str(count) + str(c2)
+            if key1 not in diffDict.keys():
+                diffDict[key1] = {key2:difference} #存为嵌套字典，第一个键为t中的社区编号，第二层键为t+1中的社区编号，sta为两个社区之间的稳定性，count暂定，用来标记第几张图
+            else:
+                diffDict[key1][key2] = difference
+            #diff.append(DataFrame({'c1': c1, 'c2': c2, 'difference': round(difference,3)}), ignore_index=True)
+    return diffDict
 
 def getSimilarity(alpha,beta,sta,diff):
     if(diff <= alpha & sta >= beta):
