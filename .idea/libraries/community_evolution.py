@@ -155,5 +155,55 @@ def norm(data):         #数据归一化
     return normData
 
 
-#社区演化分类器，alpha，beta为设定的参数，Pre为与上一张图比较得到的字典，Next是与下一张图比较得到的字典
-def evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNext):
+#社区演化分类器，alpha，beta为设定的参数，Pre为与上一张图比较得到的字典，Next是与下一张图比较得到的字典,comDict为当前需要进行判断的图的社区字典（中间图）
+# 需要和上一个图进行对比的状态：forming、merging
+# 需要和下一个图进行对比的状态：continuing、growing、shrinking、spliting、disolving
+# forming：与上一张图中的每一个社区对比是否存在演化关系（01二值）；
+# continuing：下一张图里只存在一个社区与其sim为1，并且结构相似占比（占自己）的比重超过90 %；
+# growing：下一张图里只存在一个社区满足sim = 1，且大于自己的规模超过10 %；
+# shrinking：下一张图里只存在一个社区满足sim = 1，且小于自己的规模超过10 %；
+# splitting：下一张图里存在多个社区满足，这些社区规模都比该社区小，且差异性 <= alpha + 0.1, 稳定性 > beta
+# Merging：上一张图里存在多个社区满足，规模小于该社区，且差异性 <= alpha + 0.1, 稳定性 > beta
+# dissolving：下一张图里不存在任何社区满足sim = 1
+
+def evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNext,comDictNow,comDictPre,comDictNext):
+    evolutionDict = {}    #计划将状态存为字典，共有7种状态，每一个key对应的val为一个长度为2的list，list[0]为与上一张图的关系，list[1]为与下一张图的关系
+    if not comDictPre is None:   #先判断和上一张图的对比，得出对于Forming和merging的判断，G1不进入此段代码块，其中社区默认全部为forming
+        for keyNow in comDictNow:
+            simCountPre = 0;
+            for keyPre in diffDictPre:
+                if getSimilarity(alpha,beta,staDictPre,diffDictPre,keyPre,keyNow)!=0:
+                    simCountPre += 1
+            if simCountPre == 0:
+                evolutionDict[keyNow] = ['forming']
+            if simCountPre > 1:
+                evolutionDict[keyNow] = ['merging']
+    elif comDictPre is None:
+        for keyNow in comDictNow:
+            evolutionDict[keyNow] = ['forming']
+    #与下一张图的对比
+    if not comDictNext is None:  #和下一张图的对比，得到剩余五个状态的判别
+        for keyNow in comDictNow:
+            simCountNext = 0
+            simDictList = []
+            for keyNext in diffDictNext:
+                if getSimilarity(alpha,beta,staDictNext,diffDictNext,keyNow,keyNext)!=0:
+                    simDictList.append(keyNext)
+                    simCountNext += 1
+            if simCountNext == 0:
+                evolutionDict[keyNow].append('disolving')
+            elif simCountNext == 1:
+                ratio = len(comDictNext[keyNext])/len(comDictNow[keyNow])
+                if(ratio>1.1):
+                    evolutionDict[keyNow].append('growing')
+                elif(ratio<0.9):
+                    evolutionDict[keyNow].append('shrinking')
+                elif(ratio>=0.9 & ratio<=1.1):
+                    evolutionDict[keyNow].append('continuing')
+            else:
+                evolutionDict[keyNow].append('splitting')
+    print("当前图的演化字典为：")
+    print(evolutionDict)
+
+
+
