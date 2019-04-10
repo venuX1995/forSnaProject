@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7a9707e8-d5ab-439c-bd99-5e5b8c8c04fc" name="Default Changelist" comment="">
+    <list default="true" id="7a9707e8-d5ab-439c-bd99-5e5b8c8c04fc" name="Default Changelist" comment="2019.04.01">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/community_evolution.py" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/community_evolution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/executor.py" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/executor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -43,18 +43,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/libraries/executor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="26" column="13" lean-forward="true" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+            <state relative-caret-position="-358">
+              <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
               <folding>
                 <element signature="n#!!doc" />
-                <element signature="e#578#681#0" />
-                <element signature="e#988#1197#0" />
-                <element signature="e#2397#2469#0" />
-                <element signature="e#2759#2832#0" />
-                <element signature="e#2759#2832#0" />
               </folding>
             </state>
           </provider>
@@ -72,13 +67,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.idea/libraries/community_evolution.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="853">
-              <caret line="195" column="43" lean-forward="true" selection-start-line="195" selection-start-column="43" selection-end-line="195" selection-end-column="43" />
+            <state relative-caret-position="-1504">
+              <caret line="55" column="12" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
               <folding>
                 <element signature="e#162#172#0" expanded="true" />
+                <element signature="e#6738#6827#0" />
               </folding>
             </state>
           </provider>
@@ -87,7 +83,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/anaconda3/python.app/Contents/lib/python3.7/site-packages/community/community_louvain.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
+            <state relative-caret-position="209">
               <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
             </state>
           </provider>
@@ -131,13 +127,13 @@
         <option value="$PROJECT_DIR$/.idea/libraries/aboutGraph.py" />
         <option value="$PROJECT_DIR$/.idea/libraries/evolution_test.py" />
         <option value="$PROJECT_DIR$/.idea/libraries/test.py" />
-        <option value="$PROJECT_DIR$/.idea/libraries/community_evolution.py" />
         <option value="$PROJECT_DIR$/.idea/libraries/executor.py" />
+        <option value="$PROJECT_DIR$/.idea/libraries/community_evolution.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="219" />
+    <option name="x" value="114" />
     <option name="y" value="23" />
     <option name="width" value="1808" />
     <option name="height" value="1129" />
@@ -150,30 +146,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
-              <item name="untitled" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
-              <item name="untitled" type="462c0819:PsiDirectoryNode" />
-              <item name="venv" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
           <expand>
@@ -196,6 +168,30 @@
               <item name="untitled" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="~/PycharmProjects/untitled" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="venv" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
+              <item name="untitled" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
+              <item name="untitled" type="462c0819:PsiDirectoryNode" />
+              <item name="venv" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="untitled" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
           </expand>
           <select />
@@ -404,7 +400,8 @@
       <workItem from="1553043446828" duration="46736000" />
       <workItem from="1554082650724" duration="830000" />
       <workItem from="1554083500130" duration="16134000" />
-      <workItem from="1554685069565" duration="14568000" />
+      <workItem from="1554685069565" duration="25304000" />
+      <workItem from="1554859357908" duration="7579000" />
     </task>
     <task id="LOCAL-00001" summary="2019.03.21">
       <created>1553154790561</created>
@@ -455,11 +452,18 @@
       <option name="project" value="LOCAL" />
       <updated>1554195701686</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="2019.04.01">
+      <created>1554729118742</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1554729118742</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="180199000" />
+    <option name="totallyTimeSpent" value="198514000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -471,15 +475,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="219" y="23" width="1808" height="1129" extended-state="0" />
+    <frame x="114" y="23" width="1808" height="1129" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.188" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19085714" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.51771426" visible="true" weight="0.2679803" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.5165714" visible="true" weight="0.09950739" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5377143" weight="0.36453202" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -487,7 +491,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.5091429" weight="0.32906404" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.4822857" side_tool="true" visible="true" weight="0.06896552" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.48342857" side_tool="true" visible="true" weight="0.09950739" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49539876" weight="0.32906404" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.4915254" weight="0.45714286" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -547,7 +551,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/untitled$executor__1_.coverage" NAME="executor (1) Coverage Results" MODIFIED="1554193682578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.idea/libraries" />
+    <SUITE FILE_PATH="coverage/untitled$executor__1_.coverage" NAME="executor (1) Coverage Results" MODIFIED="1554877858633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.idea/libraries" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/anaconda3/python.app/Contents/lib/python3.7/site-packages/pandas/io/parsers.py">
@@ -689,9 +693,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/libraries/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -702,9 +703,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$USER_HOME$/anaconda3/python.app/Contents/lib/python3.7/site-packages/community/community_louvain.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
+        <state relative-caret-position="209">
           <caret line="11" column="21" selection-start-line="11" selection-start-column="21" selection-end-line="11" selection-end-column="21" />
         </state>
       </provider>
@@ -719,27 +726,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/libraries/community_evolution.py">
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/executor.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="853">
-          <caret line="195" column="43" lean-forward="true" selection-start-line="195" selection-start-column="43" selection-end-line="195" selection-end-column="43" />
+        <state relative-caret-position="-358">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           <folding>
-            <element signature="e#162#172#0" expanded="true" />
+            <element signature="n#!!doc" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/libraries/executor.py">
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/community_evolution.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="26" column="13" lean-forward="true" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+        <state relative-caret-position="-1504">
+          <caret line="55" column="12" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
           <folding>
-            <element signature="n#!!doc" />
-            <element signature="e#578#681#0" />
-            <element signature="e#988#1197#0" />
-            <element signature="e#2397#2469#0" />
-            <element signature="e#2759#2832#0" />
-            <element signature="e#2759#2832#0" />
+            <element signature="e#162#172#0" expanded="true" />
+            <element signature="e#6738#6827#0" />
           </folding>
         </state>
       </provider>
