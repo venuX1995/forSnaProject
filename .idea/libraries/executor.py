@@ -25,12 +25,12 @@ import json
             #         f_out1.write("\n")
 
 p = '/users/xuan/desktop/SNA/data/'
-f = p+'edges_with_timestamps.csv'
+f = p+'edges_with_timestamps20190411.csv'
 
 count = 1 #时间切片计数器
 T: int = 5172240
 start = 1431705600
-endTimeStamp = 1538150400
+endTimeStamp = 1555084800
 end = start+T
 alpha = 0.3
 beta = 0.3
@@ -41,8 +41,13 @@ comDictNow,comDictPre,comDictNext = {},{},{}
 diffDictPre,diffDictNext = {},{}
 staDictNext: dict
 staDictPre,staDictNext = {},{}
+dataForVisual = DataFrame({'时间切片':[],'事件':[],'数量':[]})
+leadership = pd.DataFrame({'nodeID':[],'community':[],'leadership_in_community':[]})
 while end<endTimeStamp:        #循环建立每个静态网络 并输出每两个图之间的稳定性字典和差异性字典
     G = aboutGraph.generate(f,start,end)
+    comDictForLeadership = community_evolution.transformDict(community.best_partition(G))
+    leadershipOfT = community_evolution.getLeadershipOftime(comDictForLeadership,G)
+    leadership = leadership.append(leadershipOfT,ignore_index=True)
     if count == 1:
         gCur = G
     elif count == 2:
@@ -62,10 +67,42 @@ while end<endTimeStamp:        #循环建立每个静态网络 并输出每两�
         if comDictNext is not None:
             staDictNext = community_evolution.computeStability(comDictNow,comDictNext,count+1)
             diffDictNext = community_evolution.computeDifference(gCur,gNext,comDictNow,comDictNext,count+1)
-        community_evolution.evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNext,comDictNow,comDictPre,comDictNext,count)
+        evoDict = community_evolution.evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNext,comDictNow,comDictPre,comDictNext,count)
+        formingCount,mergingCount,growingCount,shrinkingCount,disolvingCount,splittingCount,continuingCount = 0,0,0,0,0,0,0
+        for key,val in evoDict.items():
+            for event in val:
+                if event=='forming':
+                    formingCount+=1
+                elif event=='merging':
+                    mergingCount+=1
+                elif event=='growing':
+                    growingCount+=1
+                elif event=='shrinking':
+                    shrinkingCount+=1
+                elif event=='disolving':
+                    disolvingCount+=1
+                elif event=='splitting':
+                    splittingCount+=1
+                elif event=='continuing':
+                    continuingCount+=1
+        print(formingCount,' ',mergingCount)
+        print(count)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片':[count-1],'事件':['forming'],'数量':[formingCount]}),ignore_index=True)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片': [count-1], '事件': ['merging'], '数量': [mergingCount]}), ignore_index=True)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片': [count-1], '事件': ['growing'], '数量': [growingCount]}), ignore_index=True)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片': [count-1], '事件': ['shrinking'], '数量': [shrinkingCount]}), ignore_index=True)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片': [count-1], '事件': ['disolving'], '数量': [disolvingCount]}), ignore_index=True)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片': [count-1], '事件': ['splitting'], '数量': [splittingCount]}), ignore_index=True)
+        dataForVisual=dataForVisual.append(DataFrame({'时间切片': [count-1], '事件': ['continuing'], '数量': [continuingCount]}), ignore_index=True)
+        print(dataForVisual)
     start += T
     if (end+T)<endTimeStamp:
         end +=T
     else:
         end = endTimeStamp
     count = count+1
+dataForVisual.to_csv(p+'data_to_visualization.csv')
+leadershipToGroup = leadership['leadership_in_community'].groupby(leadership['nodeID'])
+print(leadershipToGroup)
+leadershipToGroup.mean().to_csv(p+'avgLeadership.csv')
+#leadership.to_csv(p+'leadershipOfAll.csv')

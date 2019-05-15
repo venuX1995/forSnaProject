@@ -41,6 +41,7 @@ def getLeadershipOftime(comDict,G):
                 cfc = 2*edgeOfNeigh/(degree*(degree-1))
             leadership = round(degree/(cfc+degreeOfNeigh),3)
             leadershipOfT = leadershipOfT.append((DataFrame({'nodeID':[node],'community':[com],'leadership_in_community':[leadership]})))
+    print(leadershipOfT)
     return leadershipOfT
 
 def getIndexInCommunity(node,com,df):
@@ -149,6 +150,7 @@ def evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNe
                 evolutionDict[key1Now] = ['comingFrom '+simDictListWithPre[0]]
             if simCountPre > 1:
                 evolutionDict[key1Now] = ['merging']
+                #evolutionDict[key1Now] = ['mergingFrom '+','.join(simDictListWithPre)]
     elif comDictPre is None:
         for keyNow in comDictNow:
             evolutionDict[keyNow] = ['forming']
@@ -177,6 +179,7 @@ def evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNe
                 evolutionDict[key1].append('splitting')
     print("当前图的演化字典为：")
     print(evolutionDict)
+    return evolutionDict
 
 
 

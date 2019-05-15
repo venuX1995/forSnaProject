@@ -9,8 +9,8 @@ import pandas as pd
 from pandas import Series,DataFrame
 import  sys
 
-p = '/users/xuan/desktop/SNA/data/'
-user_and_team_info = pd.read_csv(p+'team_players1.csv')
+p = '/users/xuan/desktop/SNA/data/Original/'
+user_and_team_info = pd.read_csv(p+'player_table.csv')
 user_id = Series(user_and_team_info.user_id).unique()
 get_team_times = DataFrame({'fellow_id':[],'times':[],'user_id':[]})
 for id in user_id:
@@ -24,4 +24,4 @@ for id in user_id:
 #get_team_times = get_team_times.drop(get_team_times['fellow_id']==get_team_times['user_id'])
 get_team_times = get_team_times.set_index(['user_id'])
 
-get_team_times.to_csv(p+'get_team_timesAfterFilter.csv')
+get_team_times.to_csv(p+'get_team_times20190411.csv')

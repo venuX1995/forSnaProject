@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="7ec997f3-5a56-4e05-b6bd-d3ddb207df3a" name="sjtuhealth" url="http://front.sjtu.edu.cn">
+        <fileTransfer host="front.sjtu.edu.cn" port="3122" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="3122" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
