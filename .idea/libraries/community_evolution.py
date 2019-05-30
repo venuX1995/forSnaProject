@@ -41,7 +41,6 @@ def getLeadershipOftime(comDict,G):
                 cfc = 2*edgeOfNeigh/(degree*(degree-1))
             leadership = round(degree/(cfc+degreeOfNeigh),3)
             leadershipOfT = leadershipOfT.append((DataFrame({'nodeID':[node],'community':[com],'leadership_in_community':[leadership]})))
-    print(leadershipOfT)
     return leadershipOfT
 
 def getIndexInCommunity(node,com,df):
@@ -149,8 +148,8 @@ def evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNe
             if simCountPre == 1:
                 evolutionDict[key1Now] = ['comingFrom '+simDictListWithPre[0]]
             if simCountPre > 1:
-                evolutionDict[key1Now] = ['merging']
-                #evolutionDict[key1Now] = ['mergingFrom '+','.join(simDictListWithPre)]
+                #evolutionDict[key1Now] = ['merging']
+                evolutionDict[key1Now] = ['mergingFrom '+','.join(simDictListWithPre)]
     elif comDictPre is None:
         for keyNow in comDictNow:
             evolutionDict[keyNow] = ['forming']
@@ -163,23 +162,71 @@ def evolutionClassifier(alpha,beta,diffDictPre,staDictPre,diffDictNext,staDictNe
             for keyNext in comDictNext:
                 key2 = 'c' + str(count) + str(keyNext)
                 if getSimilarity(alpha,beta,staDictNext,diffDictNext,key1,key2)!=0:
-                    simDictListWithNext.append(keyNext)
+                    simDictListWithNext.append(key2)
                     simCountNext += 1
             if simCountNext == 0:
                 evolutionDict[key1].append('disolving')
             elif simCountNext == 1:
-                ratio = len(comDictNext[simDictListWithNext[0]])/len(comDictNow[keyNow])
+                keyNextTemp = int(simDictListWithNext[0][len(str(count-1))+1:len(simDictListWithNext[0])])
+                ratio = len(comDictNext[keyNextTemp])/len(comDictNow[keyNow])   #TODO
                 if(ratio>1.1):
-                    evolutionDict[key1].append('growing')
+                    evolutionDict[key1].append('growingTo '+simDictListWithNext[0])
                 elif(ratio<0.9):
-                    evolutionDict[key1].append('shrinking')
+                    evolutionDict[key1].append('shrinkingTo '+simDictListWithNext[0])
                 elif(ratio>=0.9 and ratio<=1.1):
-                    evolutionDict[key1].append('continuing')
+                    evolutionDict[key1].append('continuingTo '+simDictListWithNext[0])
             else:
-                evolutionDict[key1].append('splitting')
+                evolutionDict[key1].append('splittingTo '+','.join(simDictListWithNext))
+    elif comDictNext is None:
+        for keyNow in comDictNow:
+            evolutionDict[key1].append('disolving')
     print("当前图的演化字典为：")
     print(evolutionDict)
     return evolutionDict
+
+def computeEvolutionLength(evolutionDict): #输出所有演化链
+    resultList = []
+    for key,value in evolutionDict.items():
+        for group in value:
+            if value[group][0]=='forming':
+                evoList = ['formingFrom '+group]
+                checkChain(resultList,evoList,evolutionDict,group,key)
+    return resultList
+
+def decompose(nextState):
+    nextComList = []
+    tempList = nextState.split(' ')
+    event = tempList[0]
+    if len(tempList)==2:
+        nextComList = tempList[1].split(',')
+    return event,nextComList
+
+#利用递归法得到演化链，输入用于拼接的链头、字典、查询的社区，当前所在的时间窗口
+def checkChain(resultList,evolist,evodict,com,timeSlot):
+    evodictOfNow = evodict[timeSlot]
+    print('当前时间窗口的字典')
+    print(evodictOfNow)
+    print('需要查找的社区:'+com)
+    nextState = evodictOfNow[com][1]
+    event,nextComList = decompose(nextState) #event:String 存储演化事件
+    print("演化链进入第"+str(timeSlot)+'个时隙')
+    if event == 'disolving' or timeSlot==11:   #最后一个时间窗口 需要手动设置
+        evolist.append('disolving')
+        resultList.append(evolist)
+        print("event是disolving")
+        print('加入结果集')
+        print(evolist)
+        return
+    else:
+        print('event不是disolving而是'+event+' 进入递归')
+        for group in nextComList:
+            length = timeSlot
+            if(timeSlot>1):
+                while len(evolist)>timeSlot-1:
+                    evolist.pop()
+            print('递归到社区'+com+'的后继社区'+group)
+            evolist.append(event+' '+group)
+            checkChain(resultList,evolist,evodict,group,timeSlot+1)
 
 
 

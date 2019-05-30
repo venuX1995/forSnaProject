@@ -20,15 +20,19 @@ def statistcsGenerator(start,end,f):#输入为时间窗起始时间、match_tabl
     match_dataframe = pd.read_csv(f,low_memory=False,encoding='GB2312')
     statisticsDict = {'person_limit':[],'team_limit':[],'reward':[]}
     #TODO：这里的窗格筛选条件写的还有问题
-    match_dataframe = match_dataframe.loc[((match_dataframe['start_time']>=start)&(match_dataframe['start_time']<=end))]#根据起始时间戳将时间窗内的数据筛选出来
+    match_dataframe1 = match_dataframe.loc[((match_dataframe['start_time']>=start)&(match_dataframe['start_time']<=end))]
+    match_dataframe2 = match_dataframe.loc[((match_dataframe['close_time']>=start)&(match_dataframe['close_time']<=end))]
+    match_dataframe3 = match_dataframe.loc[((match_dataframe['start_time']<=start)&(match_dataframe['close_time']>=end))]#根据起始时间戳将时间窗内的数据筛选出来
+    print("mdf3:")
+    print(match_dataframe3)
+    match_dataframe = (match_dataframe1.append(match_dataframe2,ignore_index=True)).append(match_dataframe3,ignore_index=True)
+    match_dataframe.drop_duplicates()
     #1.计算队内人数的限制
-    statisticsDict['person_limit'] = match_dataframe['ppl_in_team'].value_counts() #以series的形式存储在字典中
+    statisticsDict['person_limit'] = match_dataframe.loc[match_dataframe['ppl_in_team']<50]['ppl_in_team'].value_counts() #以series的形式存储在字典中
     #2.计算队伍数量的限制
-    statisticsDict['team_limit'] = match_dataframe['team_limit'].value_counts()
+    statisticsDict['team_limit'] = match_dataframe.loc[match_dataframe['ppl_in_team']<50]['team_limit'].value_counts()
     #3.计算激励措施的情况
-    statisticsDict['reward'] = match_dataframe['binary_award'].value_counts()
-    print(statisticsDict)
-    print(statisticsDict['person_limit'].index)
+    statisticsDict['reward'] = match_dataframe.loc[match_dataframe['ppl_in_team']<50]['binary_award'].value_counts()
     return statisticsDict
 
 #本函数的输入为快照1的统计字典、快照2的统计字典、需要计算量化值的类型（人数限制、队伍数限制、虚拟/实物奖励）
@@ -55,12 +59,16 @@ def quantizationInTimeline(start,end,T,f,target): #输入start,end是整个表�
     count = 1
     change_list = []
     while end_flag<end:
+        print("当前计数为：",count)
         if count==1:
+            print("进入条件一")
             staDict1 = statistcsGenerator(start_flag,end_flag,f)
-        if count==2:
+        elif count==2:
+            print("进入条件二")
             staDict2 = statistcsGenerator(start_flag,end_flag,f)
             change_list.append(quantizationGenerator(staDict1,staDict2,target))
         else:
+            print("进入条件三")
             staDict1 = staDict2
             staDict2 = statistcsGenerator(start_flag,end_flag,f)
             change_list.append(quantizationGenerator(staDict1,staDict2,target))
@@ -71,6 +79,7 @@ def quantizationInTimeline(start,end,T,f,target): #输入start,end是整个表�
         else:
             end_flag = end
     print(change_list)
+    return change_list
     Series(change_list).plot()
 
 
@@ -79,4 +88,11 @@ def quantizationInTimeline(start,end,T,f,target): #输入start,end是整个表�
 
 
 f = '/users/xuan/PycharmProjects/untitled/match_information/match_table.csv'
-statistcsGenerator(1482681600,1486310400,f)
+p = '/users/xuan/desktop/SNA/data/'
+#statistcsGenerator(1482681600,1486310400,f)
+reward_change = quantizationInTimeline(1431705600,1557504000,5172240/2,f,'reward')
+person_limit_change = quantizationInTimeline(1431705600,1557504000,5172240/2,f,'person_limit')
+team_limit_change = quantizationInTimeline(1431705600,1557504000,5172240/2,f,'team_limit')
+Series(person_limit_change).to_csv(p+'person_limit_change.csv')
+Series(reward_change).to_csv(p+'reward_change.csv')
+Series(team_limit_change).to_csv(p+'team_limit.csv')

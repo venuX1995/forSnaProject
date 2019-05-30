@@ -60,7 +60,8 @@ def generate(f,start,end):   #根据给定的边文件筛选在时间窗[start�
         startStamp = int(line[2])
         endStamp = int(line[3])  #起始的时间戳
         pplInTeam = int(line[4]) #具体的列数要根据数据源确定 这一项为队内的人数限制，目的为筛除超大型的队伍
-        if((startStamp>=start and startStamp<end and pplInTeam<=50) or (endStamp>=start and endStamp<end and pplInTeam<=50)):
+        if((startStamp>=start and startStamp<end and pplInTeam<=100) or (endStamp>=start and endStamp<end and pplInTeam<=100)
+                or (startStamp<start and endStamp>end and pplInTeam<=100)):
             #print('时间戳为：',line[2],' 所在比赛的每组人数限制为：',line[3])
             G.add_edge(line[0],line[1])
             #print('添加边：', line[0],'-',line[1])
