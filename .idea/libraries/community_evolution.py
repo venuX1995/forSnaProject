@@ -210,7 +210,7 @@ def checkChain(resultList,evolist,evodict,com,timeSlot):
     nextState = evodictOfNow[com][1]
     event,nextComList = decompose(nextState) #event:String 存储演化事件
     print("演化链进入第"+str(timeSlot)+'个时隙')
-    if event == 'disolving' or timeSlot==11:   #最后一个时间窗口 需要手动设置
+    if event == 'disolving' or timeSlot==len(evodict):   #最后一个时间窗口 需要手动设置
         evolist.append('disolving')
         resultList.append(evolist)
         print("event是disolving")
@@ -222,7 +222,7 @@ def checkChain(resultList,evolist,evodict,com,timeSlot):
         for group in nextComList:
             length = timeSlot
             if(timeSlot>1):
-                while len(evolist)>timeSlot-1:
+                while len(evolist)>timeSlot:
                     evolist.pop()
             print('递归到社区'+com+'的后继社区'+group)
             evolist.append(event+' '+group)
