@@ -16,15 +16,10 @@ from openpyxl import load_workbook
 from openpyxl import Workbook
 
 
-inp = [{'c1':10, 'c2':100}, {'c1':11,'c2':110}, {'c1':12,'c2':120}]
-df = pd.DataFrame(inp)
-print(df)
-print(list(df['c1'].values))
-if 12 in list(df['c1'].values):
-    print('true')
-else:
-    print('false')
-
+# df = pd.DataFrame(data = [['lisa','f',22],['joy','f',21],['tom','m',19]],index = [1,2,3],columns = ['name','sex','age'])
+# print(df)
+String = 'aa  bb  cc'
+print(len(String.split()))
 # def check_file_charset(file):
 #     with open(file,'rb') as f:
 #         return chardet.detect(f.read())
