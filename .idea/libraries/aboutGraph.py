@@ -133,11 +133,12 @@ def data_in_specific_window(f,start,T):
 
 
 #基于比赛事件的窗口建立
-def window_based_on_activity(df,mId): #f 是边的总文件，mID 是用于建立当前窗格的比赛 id
-    edges = df.loc[df['match_id']==mId]
+def window_based_on_activity(df,mId_list): #f 是边的总文件，mID 是用于建立当前窗格的比赛 id
     G = nx.Graph()
-    for index,row in edges.iterrows():
-        G.add_edge(row['source'],row['target'])
+    for mid in mId_list:
+        edges = df.loc[df['match_id']==mid]
+        for index,row in edges.iterrows():
+            G.add_edge(row['source'],row['target'])
     return G
 #leadershipDF = community_evolution.getLeadershipOftime(G)
 #print(community_evolution.getIndexInCommunity(50195,25,leadershipDF))

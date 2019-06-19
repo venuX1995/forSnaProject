@@ -13,22 +13,30 @@ import aboutGraph
 
 p = '/users/xuan/desktop/SNA/data/'
 f = p+'edge_with_match_info.csv'
-match_type = [3]
+match_type = [1,2]
+window_size = 1
 data = pd.read_csv(f)
 match_id_target = DataFrame({})
 for type in match_type:
     match_id_target = match_id_target.append(data.loc[data['match_type']==type])
-match_id_target = Series(match_id_target.match_id.unique()).sort_values()
+match_id_target = list(Series(match_id_target.match_id.unique()).sort_values())
 partition_list = []
 gNow = nx.Graph()
 data_4_sanky = DataFrame({'source':[],'target':[],'label':[],'value':[]})  #member 是一个 list
 com_index = Series([])
-#得到 louvain 算法算出的所有目标比赛的社区划分partition_list，key 为用户，val 为所属的社区
-for index, mid in match_id_target.iteritems():
-    G = aboutGraph.window_based_on_activity(data, mid)
-    gNow = G
-    partition_list.append(community.best_partition(gNow))
-
+#建立每个窗格中的静态图，得到 louvain 算法算出的所有目标比赛的社区划分partition_list，key 为用户，val 为所属的社区
+if window_size>1:
+    for i in range(0,int(448/window_size)-2):
+        match_id_list = match_id_target[i*window_size:i*window_size+window_size-1]
+        G = aboutGraph.window_based_on_activity(data, match_id_list)
+        gNow = G
+        partition_list.append(community.best_partition(gNow))
+elif window_size==1:
+    for i in range(0,len(match_id_target)-2):
+        match_id_list = [match_id_target[i]]
+        G = aboutGraph.window_based_on_activity(data, match_id_list)
+        gNow = G
+        partition_list.append(community.best_partition(gNow))
 #给所有的社区编号
 for i in range(0,len(partition_list)-1):
     com_list = list(set(partition_list[i].values()))
@@ -46,7 +54,7 @@ for i in range(0,len(partition_list)-2):
         quit_index = com_index[com_index.values == '消失'].index[0]
         source_com = str(i) + '_' + str(com)
         source_com_index = com_index[com_index.values == source_com].index[0]
-        for j in range(i+1,len(partition_list)-2):  #遍历后续的社区，找到第一个出现该用户的社区
+        for j in range(i+1,len(partition_list)-1):  #遍历后续的社区，找到第一个出现该用户的社区
             if user in partition_list[j].keys():   #如果在后续社区中找到了该用户
                 target_com = str(j)+'_'+str(partition_list[j][user])
                 target_com_index = com_index[com_index.values == target_com].index[0]
@@ -70,5 +78,5 @@ for index in data_4_sanky.index:
     value = len(data_4_sanky.loc[index,'label'].split())
     data_4_sanky.loc[index,'value']= value
 
-com_index.to_csv(p+'community_index.csv')
-data_4_sanky.to_csv(p+'data_4_sanky.csv')
+com_index.to_csv(p+'community_index_reward.csv',encoding ='utf-8')
+data_4_sanky.to_csv(p+'data_4_sanky_reward.csv',encoding ='utf-8')
